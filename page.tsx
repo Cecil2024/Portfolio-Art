@@ -336,9 +336,17 @@ export default function Page() {
       <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm">
         <nav className="max-w-6xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-gray-100" />
-              <div>
+            <div className="flex items-center gap-4"> 
+                  <Image
+                        src="/logo-Connielineas.png"
+                        alt="Background pattern"
+                        width={50}
+                        height={50}
+                        className="object-cover object-center opacity85"
+                        priority
+                      />
+                <div>
+                  
                 <h1 className="text-xl font-medium tracking-wide">CONNIE RAMIREZ</h1>
                 <p className="text-sm text-gray-600">Visual Artist</p>
               </div>
@@ -407,15 +415,15 @@ export default function Page() {
                     <Image
                       src="/selecionada.jpg"
                       alt="Background pattern"
-                      fill
-                      className="object-cover object-center opacity85"
+                      layout="fill"
+                      className="object-cover object-center opacity85 w-5 h-5"
                       priority
                     />
                   </div>
                   <div className="max-w-6xl mx-auto px-4 relative">
-                    <div className="max-w-xl bg-white p-6 rounded-lg shadow-lg">
-                      <h2 className="text-2xl font-medium mb-6">CONNIE RAMíREZ</h2>
-                      <div className="space-y-4 text-gray-600">
+                    <div className="max-w-xl bg-white opacity-85 p-9 shadow-lg">
+                      <h2 className="text-2xl font-medium mb-6">CONNIE RAMIREZ</h2>
+                      <div className="space-y-4 text-gray-600 text-justify">
                         <p>
                           I am a Colombian visual artist living in London. I have a BA in Visual Arts with an emphasis in
                           Plastic from Javeriana University in Bogota. I also have a Masters in Art History from the University
