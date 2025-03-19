@@ -11,6 +11,9 @@ import { title } from "process"
 export default function Page() {
   const [activeSection, setActiveSection] = useState("portfolio")
 
+  const [visibleRows, setVisibleRows] = useState(3) // Start with 3 rows
+  const imagesPerRow = 4 // Number of images per row
+
   useEffect(() => {
     const handleScroll = () => {
       const sections = document.querySelectorAll("section")
@@ -235,7 +238,7 @@ export default function Page() {
     },
     {
       id: 25,
-      src: "/autorretrato en 2268 partes.jpg",
+      src: "/autorretrato en 2268 partes.png",
       title: "Autorretrato en 2268 partes",
       medium: "Collage",
       dimensions: "350 x 400 cm.",
@@ -331,6 +334,9 @@ export default function Page() {
     },
   ]
 
+  // Calculate the number of images to display
+  const visibleImages = artworks.slice(0, visibleRows * imagesPerRow)
+
   return (
     <div className="min-h-screen bg-white">
       <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm">
@@ -386,7 +392,7 @@ export default function Page() {
       <main className="max-w-6xl mx-auto px-4">
         <section id="portfolio" className="pt-32 pb-16">
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-max">
-            {artworks.map((artwork) => (
+            {visibleImages.map((artwork) => (
               <div
                 key={artwork.id}
                 className="group relative aspect-square overflow-hidden bg-gray-50 hover:bg-gray-100 transition-colors"
@@ -408,22 +414,35 @@ export default function Page() {
               </div>
             ))}
           </div>
+
+          {/* Load More Button */}
+          {visibleImages.length < artworks.length && (
+                      <div className="text-center mt-8">
+                        <button
+                          onClick={() => setVisibleRows(visibleRows + 3)} // Load 3 more rows
+                          className="px-6 py-2 bg-black text-white rounded hover:bg-gray-800 transition"
+                        >
+                          Load More
+                        </button>
+                      </div>
+                    )}
+
         </section>
 
         <section id="bio" className="py-16 relative">
                   <div className="absolute inset-0 overflow-hidden">
                     <Image
                       src="/selecionada.jpg"
-                      alt="Background pattern"
+                      alt="Artist in the studio"
                       layout="fill"
                       className="object-cover object-center opacity85 w-5 h-5"
                       priority
                     />
                   </div>
-                  <div className="max-w-6xl mx-auto px-4 relative">
-                    <div className="max-w-xl bg-white opacity-85 p-9 shadow-lg">
-                      <h2 className="text-2xl font-medium mb-6">CONNIE RAMIREZ</h2>
-                      <div className="space-y-4 text-gray-600 text-justify">
+                  <div className="max-w-4xl mx-auto px-4 relative">
+                    <div className="max-w-md bg-white opacity-90 p-12 shadow-lg">
+                      <h2 className="text-2xl font-medium mb-4">CONNIE RAMIREZ</h2>
+                      <div className="space-y-3 text-gray-600 text-sm text-justify">
                         <p>
                           I am a Colombian visual artist living in London. I have a BA in Visual Arts with an emphasis in
                           Plastic from Javeriana University in Bogota. I also have a Masters in Art History from the University
