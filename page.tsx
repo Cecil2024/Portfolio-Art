@@ -10,11 +10,12 @@ import { title } from "process"
 
 export default function Page() {
   const [activeSection, setActiveSection] = useState("portfolio")
-
   const [visibleRows, setVisibleRows] = useState(3) // Start with 3 rows
   const imagesPerRow = 4 // Number of images per row
   const [selectedImage, setSelectedImage] = useState(null) // Track selected image
   const [isModalOpen, setIsModalOpen] = useState(false) // Track modal state
+
+  const [menuOpen, setMenuOpen] = useState(false) // Track menu state
 
 
   useEffect(() => {
@@ -351,60 +352,114 @@ export default function Page() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm">
-        <nav className="max-w-6xl mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4"> 
-                  <Image
-                        src="/logo-Connielineas.png"
-                        alt="Background pattern"
-                        width={50}
-                        height={50}
-                        className="object-cover object-center opacity85"
-                        priority
-                      />
-                <div>
-                  
-                <h1 className="text-xl font-medium tracking-wide">CONNIE RAMIREZ</h1>
-                <p className="text-sm text-gray-600">Visual Artist</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-8">
-              <button
-                onClick={() => scrollToSection("portfolio")}
-                className={`text-sm transition-colors ${activeSection === "portfolio" ? "text-black" : "text-gray-500 hover:text-gray-800"}`}
-              >
-                PORTFOLIO
-              </button>
-              <button
-                onClick={() => scrollToSection("bio")}
-                className={`text-sm transition-colors ${activeSection === "bio" ? "text-black" : "text-gray-500 hover:text-gray-800"}`}
-              >
-                BIO
-              </button>
-              <button
-                onClick={() => scrollToSection("contact")}
-                className={`text-sm transition-colors ${activeSection === "contact" ? "text-black" : "text-gray-500 hover:text-gray-800"}`}
-              >
-                CONTACT
-              </button>
-              <a
-                href="https://instagram.com/connieram"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                <Instagram className="w-5 h-5" />
-              </a>
-            </div>
+    <div className="flex items-center gap-4">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm">
+      <nav className="max-w-6xl mx-auto px-4 py-6 flex items-center justify-between">
+        {/* Logo */}
+        <div className="flex items-center gap-4">
+          <Image
+            src="/logo-Connielineas.png"
+            alt="Logo"
+            width={50}
+            height={50}
+            className="object-cover object-center opacity85"
+            priority
+          />
+          <div className="block">
+            {/* Show text next to the logo on all screen sizes */}
+            <h1 className="text-sm md:text-xl font-medium tracking-wide">CONNIE RAMIREZ</h1>
+            <p className="text-xs md:text-sm text-gray-600">Visual Artist</p>
           </div>
-        </nav>
-      </header>
+        </div>
+
+        {/* Menu Items */}
+        <div className="hidden md:flex items-center gap-8">
+          <button
+            onClick={() => scrollToSection("portfolio")}
+            className={`text-sm transition-colors ${activeSection === "portfolio" ? "text-black" : "text-gray-500 hover:text-gray-800"}`}
+          >
+            PORTFOLIO
+          </button>
+          <button
+            onClick={() => scrollToSection("bio")}
+            className={`text-sm transition-colors ${activeSection === "bio" ? "text-black" : "text-gray-500 hover:text-gray-800"}`}
+          >
+            BIO
+          </button>
+          <button
+            onClick={() => scrollToSection("contact")}
+            className={`text-sm transition-colors ${activeSection === "contact" ? "text-black" : "text-gray-500 hover:text-gray-800"}`}
+          >
+            CONTACT
+          </button>
+          <a
+            href="https://instagram.com/connieram"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-600 hover:text-gray-900 transition-colors"
+          >
+            <Instagram className="w-5 h-5" />
+          </a>
+        </div>
+
+        {/* Hamburger Menu Button */}
+        <button
+          className="md:hidden text-gray-600 hover:text-gray-900 transition-colors"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+          </svg>
+        </button>
+      </nav>
+
+      {/* Mobile Menu */}
+      {menuOpen && (
+        <div className="md:hidden bg-white shadow-lg">
+          <div className="flex flex-col items-center gap-4 py-4">
+            <button
+              onClick={() => {
+                scrollToSection("portfolio")
+                setMenuOpen(false)
+              }}
+              className={`text-sm transition-colors ${activeSection === "portfolio" ? "text-black" : "text-gray-500 hover:text-gray-800"}`}
+            >
+              PORTFOLIO
+            </button>
+            <button
+              onClick={() => {
+                scrollToSection("bio")
+                setMenuOpen(false)
+              }}
+              className={`text-sm transition-colors ${activeSection === "bio" ? "text-black" : "text-gray-500 hover:text-gray-800"}`}
+            >
+              BIO
+            </button>
+            <button
+              onClick={() => {
+                scrollToSection("contact")
+                setMenuOpen(false)
+              }}
+              className={`text-sm transition-colors ${activeSection === "contact" ? "text-black" : "text-gray-500 hover:text-gray-800"}`}
+            >
+              CONTACT
+            </button>
+            <a
+              href="https://instagram.com/connieram"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-600 hover:text-gray-900 transition-colors"
+            >
+              <Instagram className="w-5 h-5" />
+            </a>
+          </div>
+        </div>
+      )}
+    </header>
 
       <main className="max-w-6xl mx-auto px-4">
         <section id="portfolio" className="pt-32 pb-16">
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-max">
+             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 auto-rows-max">
             {visibleImages.map((artwork) => (
               <div
                 key={artwork.id}
