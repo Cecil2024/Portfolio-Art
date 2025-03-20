@@ -13,6 +13,9 @@ export default function Page() {
 
   const [visibleRows, setVisibleRows] = useState(3) // Start with 3 rows
   const imagesPerRow = 4 // Number of images per row
+  const [selectedImage, setSelectedImage] = useState(null) // Track selected image
+  const [isModalOpen, setIsModalOpen] = useState(false) // Track modal state
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -337,6 +340,16 @@ export default function Page() {
   // Calculate the number of images to display
   const visibleImages = artworks.slice(0, visibleRows * imagesPerRow)
 
+  const openModal = (artwork) => {
+    setSelectedImage(artwork)
+    setIsModalOpen(true)
+  }
+
+  const closeModal = () => {
+    setSelectedImage(null)
+    setIsModalOpen(false)
+  }
+
   return (
     <div className="min-h-screen bg-white">
       <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm">
@@ -395,7 +408,8 @@ export default function Page() {
             {visibleImages.map((artwork) => (
               <div
                 key={artwork.id}
-                className="group relative aspect-square overflow-hidden bg-gray-50 hover:bg-gray-100 transition-colors"
+                className="group relative aspect-square overflow-hidden bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer"
+                onClick={() => openModal(artwork)} // Open modal on click
               >
                 <Image
                   src={artwork.src || "/placeholder.svg"}
@@ -426,7 +440,39 @@ export default function Page() {
                         </button>
                       </div>
                     )}
-
+{/* Modal */}
+{isModalOpen && selectedImage && (
+  <div
+    className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+    onClick={closeModal} // Close modal when clicking on the background
+  >
+    <div
+      className="relative max-w-4xl w-full max-h-screen p-4 bg-white rounded-lg overflow-y-auto"
+      onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the modal content
+    >
+      <button
+        onClick={closeModal}
+        className="absolute top-4 right-4 text-black text-2xl font-bold"
+      >
+        &times;
+      </button>
+      <div className="flex flex-col items-center">
+        <Image
+          src={selectedImage.src}
+          alt={selectedImage.alt}
+          width={800}
+          height={800}
+          className="object-contain max-h-[70vh] mx-auto" // Limit image height to 70% of the viewport
+        />
+        <div className="text-center text-black mt-4">
+          <h2 className="text-xl font-medium">{selectedImage.title}</h2>
+          <p className="italic">{selectedImage.medium}</p>
+          <p>{selectedImage.dimensions}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
         </section>
 
         <section id="bio" className="py-16 relative">
