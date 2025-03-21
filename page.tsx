@@ -531,18 +531,32 @@ export default function Page() {
         </section>
 
         <section id="bio" className="py-16 relative">
-                  <div className="absolute inset-0 overflow-hidden">
-                    <Image
-                      src="/selecionada.jpg"
-                      alt="Artist in the studio"
-                      layout="fill"
-                      className="object-cover object-center opacity85 w-5 h-5"
-                      priority
-                    />
-                  </div>
-                  <div className="max-w-4xl mx-auto px-4 relative">
-                    <div className="max-w-md bg-white opacity-90 p-12 shadow-lg">
-                      <h2 className="text-2xl font-medium mb-4">CONNIE RAMIREZ</h2>
+                  <div className="max-w-6xl mx-auto px-4">
+                    <div className="relative">
+                      {/* Background Image for Large Screens */}
+                      <div
+                        className="hidden md:block md:w-full bg-cover bg-center shadow-lg"
+                        style={{
+                          backgroundImage: "url('/selecionada.jpg')",
+                          height: "500px",
+                        }}
+                    ></div>
+                      
+                      {/* Image for Small Screens*/}
+                      <div className="w-full md:hidden">
+                        <Image
+                          src="/selecionada.jpg"
+                          alt="Artist in the studio"
+                          width={800}
+                          height={600}
+                          className="object-cover shadow-lg"
+                          priority
+                        />
+                      </div>
+
+                    {/* Text Container */}
+                    <div className="relative md:absolute top-0 left-0 md:top-1/2 md:left-16 md:transform md:-translate-y-1/2 bg-white opacity-90 p-10 w-full md:w-1/3">
+                      <h2 className="text-2xl font-medium mb-4 text-center md:text-left">CONNIE RAMIREZ</h2>
                       <div className="space-y-3 text-gray-600 text-sm text-justify">
                         <p>
                           I am a Colombian visual artist living in London. I have a BA in Visual Arts with an emphasis in
@@ -560,7 +574,8 @@ export default function Page() {
                       </div>
                     </div>
                   </div>
-                </section>
+                </div>
+            </section>
 
         <section id="testimonials" className="py-16 bg-gray-50">
           <div className="max-w-6xl mx-auto px-4">
