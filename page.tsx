@@ -242,7 +242,7 @@ export default function Page() {
     },
     {
       id: 25,
-      src: "/autorretrato en 2268 partes.png",
+      src: "/autorretrato en 2268 partes.jpg",
       title: "Autorretrato en 2268 partes",
       medium: "Collage",
       dimensions: "350 x 400 cm.",
