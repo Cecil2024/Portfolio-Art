@@ -537,7 +537,7 @@ export default function Page() {
                       <div
                         className="hidden md:block md:w-full bg-cover bg-center shadow-lg"
                         style={{
-                          backgroundImage: "url('/selecionada.jpg')",
+                          backgroundImage: "url('/selecionada.avif')",
                           height: "500px",
                         }}
                     ></div>
@@ -545,7 +545,7 @@ export default function Page() {
                       {/* Image for Small Screens*/}
                       <div className="w-full md:hidden">
                         <Image
-                          src="/selecionada.jpg"
+                          src="/selecionada.avif"
                           alt="Artist in the studio"
                           width={800}
                           height={600}
