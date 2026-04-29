@@ -17,6 +17,18 @@ export default function Page() {
 
   const [menuOpen, setMenuOpen] = useState(false) // Track menu state
 
+  // Form state
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(null)
+
+  // Replace with your Formspree form ID from https://formspree.io
+  const FORMSPREE_FORM_ID = "https://formspree.io/f/xnjwazyd"
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -44,6 +56,42 @@ export default function Page() {
         top: offsetPosition,
         behavior: "smooth",
       })
+    }
+  }
+
+  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }))
+  }
+
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    setSubmitStatus(null)
+
+    try {
+      const response = await fetch(`https://formspree.io/f/${FORMSPREE_FORM_ID}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+
+      if (response.ok) {
+        setSubmitStatus("success")
+        setFormData({ name: "", email: "", message: "" })
+        setTimeout(() => setSubmitStatus(null), 5000)
+      } else {
+        setSubmitStatus("error")
+      }
+    } catch (error) {
+      setSubmitStatus("error")
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -623,33 +671,70 @@ export default function Page() {
         <section id="contact" className="py-16">
           <div className="max-w-xl mx-auto">
             <h2 className="text-2xl font-medium mb-6">Get in Touch</h2>
-            <form className="space-y-4">
+            <form onSubmit={handleFormSubmit} className="space-y-4">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                   Name
                 </label>
-                <Input id="name" type="text" placeholder="Your name" />
+                <Input
+                  id="name"
+                  name="name"
+                  type="text"
+                  placeholder="Your name"
+                  value={formData.name}
+                  onChange={handleFormChange}
+                  required
+                  disabled={isSubmitting}
+                />
               </div>
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                   Email
                 </label>
-                <Input id="email" type="email" placeholder="your@email.com" />
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="your@email.com"
+                  value={formData.email}
+                  onChange={handleFormChange}
+                  required
+                  disabled={isSubmitting}
+                />
               </div>
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
                   Message
                 </label>
-                <Textarea id="message" placeholder="Your message" className="min-h-[150px]" />
+                <Textarea
+                  id="message"
+                  name="message"
+                  placeholder="Your message"
+                  className="min-h-[150px]"
+                  value={formData.message}
+                  onChange={handleFormChange}
+                  required
+                  disabled={isSubmitting}
+                />
               </div>
-              <Button type="submit" className="w-full">
-                Send Message
+              {submitStatus === "success" && (
+                <div className="p-3 bg-green-100 text-green-800 rounded text-sm">
+                  ✓ Message sent successfully! I'll get back to you soon.
+                </div>
+              )}
+              {submitStatus === "error" && (
+                <div className="p-3 bg-red-100 text-red-800 rounded text-sm">
+                  ✗ There was an error sending your message. Please try again.
+                </div>
+              )}
+              <Button type="submit" className="w-full" disabled={isSubmitting}>
+                {isSubmitting ? "Sending..." : "Send Message"}
               </Button>
             </form>
           </div>
         </section>
         <footer className="py-16 text-center">
-          <p className="text-gray-600 text-sm">© 2025 Connie Ramirez Visual Artist. London, UK. All rights reserved.</p>
+          <p className="text-gray-600 text-sm">© 2026 Connie Ramirez Visual Artist. London, UK. All rights reserved.</p>
         </footer>
       </main>
     </div>
