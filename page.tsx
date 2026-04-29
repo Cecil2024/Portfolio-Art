@@ -27,7 +27,7 @@ export default function Page() {
   const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(null)
 
   // Replace with your Formspree form ID from https://formspree.io
-  const FORMSPREE_FORM_ID = "https://formspree.io/f/xnjwazyd"
+  const FORMSPREE_FORM_ID = "xnjwazyd"
 
 
   useEffect(() => {
